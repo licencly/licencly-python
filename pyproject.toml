@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "licencly"
+version = "1.0.0"
+description = "Verify Licencly licenses and check for entitled updates."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["licencly", "licensing", "license", "software-licensing", "updates"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
+]
+
+# One runtime dependency. Python has no Ed25519 in the standard library, and a
+# pure-Python implementation would be both slow and a bad idea; HTTP uses
+# stdlib urllib so nothing else is needed.
+# The floor is 43.0.1 rather than the oldest version that works. Anything
+# below it carries a published advisory, and a vendor running pip-audit should
+# not find that we are the reason it goes red. None of those advisories touch
+# Ed25519, so this is about their audit, not about correctness here.
+dependencies = ["cryptography>=43.0.1"]
+
+[project.urls]
+Homepage = "https://licencly.com"
+Repository = "https://github.com/licencly/licencly-python"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/licencly"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

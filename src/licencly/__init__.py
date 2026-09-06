@@ -43,10 +43,16 @@ from .licensefile import (
 # the client already holds, and two ways to do one thing would both be frozen at 1.0.
 from .updates import ArtifactError, Release, UpdateOutcome, UpdateResult
 
+# The conventional name. VERSION is what the other three SDKs call it, and it
+# stays, but a Python developer checking a package's version reaches for
+# __version__ and importlib.metadata, not for a shouty constant.
+__version__ = VERSION
+
 __all__ = [
     "machine_id",
     "NoMachineIdError",
     "VERSION",
+    "__version__",
     "ApiError",
     "ArtifactError",
     "Cache",

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "licencly"
-version = "1.0.0"
+version = "1.0.1"
 description = "Verify Licencly licenses and check for entitled updates."
 readme = "README.md"
 license = { file = "LICENSE" }

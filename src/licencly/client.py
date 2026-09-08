@@ -28,7 +28,7 @@ from .licensefile import Claims, LicenseFileError, public_key_from_base64, verif
 from .updates import Release
 
 #: Sent in the user agent, so a vendor's traffic is identifiable in support.
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 DEFAULT_BASE_URL = "https://licencly.com"
 DEFAULT_TIMEOUT = 10.0

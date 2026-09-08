@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
-from .licensefile import STATUS_ACTIVE, Claims
+from .licensefile import STATUS_ACTIVE, STATUS_EXPIRED, Claims
 
 
 class Outcome(str, Enum):
@@ -77,6 +77,13 @@ def evaluate(
     }
     seconds = int(now.replace(tzinfo=now.tzinfo or timezone.utc).timestamp())
 
+    # An expired status is an expiry, not a generic refusal. The server derives
+    # the status when it signs, so a licence past its date arrives as "expired"
+    # rather than "active" with a stale date. Checking the status first made
+    # Outcome.EXPIRED unreachable in practice, and told a customer who needed to
+    # renew that they had been suspended or revoked.
+    if claims.status == STATUS_EXPIRED:
+        return Decision(outcome=Outcome.EXPIRED, **common)
     if claims.status != STATUS_ACTIVE:
         return Decision(outcome=Outcome.NOT_ACTIVE, **common)
     if claims.expires_at != 0 and seconds > claims.expires_at:
